@@ -149,6 +149,13 @@ Related and worth reading before you reach for a symlink in any agent context:
 the [thin-adapter refutation](../operations/cowork-deployment-lessons.md) of the same instinct
 in a different setting.
 
+The mirror image — a junction that puts the agent's whole project tree *inside*
+the vault so the notes app can browse it — was tried, shipped, and reverted
+after it cost eight seconds of every vault launch: the indexer registered
+138,583 entries through the doorway, not the 5,600 notes it was meant to expose.
+The rule that replaced it, and the two-week misdiagnosis before it, are in
+[rules-that-stuck.md](../lessons/rules-that-stuck.md#-the-vault-gets-pointers-into-the-workspace-never-the-workspace-itself).
+
 ---
 
 ## Plugin evaluations

@@ -374,6 +374,55 @@ writing doesn't go in the writing folder — make the call.
 
 ---
 
+## Plumbing between the vault and the agent's workspace
+
+### ★ The vault gets pointers into the workspace, never the workspace itself
+
+The agent's project tree stays outside the vault. What the vault holds is a
+generated dashboard of links into it, and the human opens the project tree in
+a *separate*, on-demand vault when he wants to browse it. Nothing that indexes
+the personal vault ever sees the project tree.
+
+**Cost:** two weeks of a vault that took nine to ten seconds to open, against
+1.3 s once the cause was removed. The project tree had been joined into the
+vault as a directory junction so that checkpoints could be read and linked from
+the notes app. It looked cheap: the app's "excluded files" setting hid the
+folder from search, and the tree held only about 5,600 notes. What the app
+actually registered through that doorway was **138,583 files and directories**
+— every script, cache, build output and git object in a 24 GB tree — and the
+excluded-files setting does not stop the indexer, it only hides results.
+
+Three things about how it was found are worth more than the fix:
+
+- **The first diagnosis was wrong and stayed wrong for two weeks.** A plugin
+  that enumerates every note at startup was the obvious suspect, a public issue
+  matched the symptom, and the working note said "main candidate: the plugin"
+  with a test that never ran. A single launch measurement cannot apportion time
+  between core indexing, plugins, and layout restore; a hypothesis written down
+  with confidence reads as a finding by the next session.
+- **The comparison that located it was on a copy, not the live vault.** The same
+  notes copied as ordinary files opened in 1.7 s with every plugin loaded; the
+  real vault with a fresh cache still took 7.8 s; the personal vault with the
+  doorway moved out opens in 1.3 s. Three numbers, one variable each.
+- **Testing on the live vault first was itself an incident.** Severing the
+  junction while the app's cache still listed the 5,600 notes hung the app on
+  one CPU core for eighteen minutes with the "loading cache" screen up and no
+  disk activity, and the process had to be killed. The cause was never
+  established. The migration that worked cleared the app's own metadata cache
+  *before* removing the doorway. Whatever the mechanism, the rule it leaves is
+  cheap: **measure structural changes on a copy; the live vault is the last
+  place to run the experiment, not the first.**
+
+The app's own documentation discourages junctions and symlinks inside a vault
+("may not play well with sync", changes outside the app are not watched). That
+warning was read and filed under "performance opinion" at the time. It was
+vendor guidance, and it was right. The narrow per-project symlink pattern in
+[prior-art.md](../design/prior-art.md) fails for the same reason in the other
+direction: the question is never "can the agent read the path" but "what does
+the indexer now see."
+
+---
+
 ## Structural rules about the rules
 
 ### ★ One source of truth, thin adapters per runtime
