@@ -36,6 +36,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | Understand how the agent asks permission | [approval-staging.md](design/approval-staging.md) |
 | Skip to the lessons | [rules-that-stuck.md](lessons/rules-that-stuck.md) |
 | Know what will break six months in | [vault-maintenance.md](operations/vault-maintenance.md) |
+| Separate project browsing from personal-vault startup | [workspace-startup.md](operations/workspace-startup.md) |
 | Stop your agent's instruction files from bloating | [context-budget.md](operations/context-budget.md) |
 | See what this was built on (and what was rejected) | [prior-art.md](design/prior-art.md) |
 
