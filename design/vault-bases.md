@@ -28,6 +28,11 @@ full YAML live in
 **One note per action item**, all in `Projects/Sprints/`, surfaced through eight
 views. The note body holds the detail; the frontmatter drives the table.
 
+This section is the *table*. What happens to a row over time — where rows come
+from, the weekly ten-minute ritual, draining the agent's plate, the sweep
+rules, and the decision board that sits on top of the **Decide** view — is in
+[sprints-workflow.md](sprints-workflow.md).
+
 ### Item frontmatter
 
 ```yaml
@@ -320,7 +325,7 @@ views:
 |---|---|---|
 | **Now** | `next == true` | At most three picks. The answer to "what do I actually do next." |
 | **Quick wins** | human-owned, quick, unblocked, active-tier items | Small actions that can disappear without competing with larger work. |
-| **Decide** | human-owned blocked items | Decisions and permissions, with a recommendation in `reply`. |
+| **Decide** | human-owned blocked items | Decisions and permissions, with a recommendation in `reply`. Feeds the per-project decision board ([sprints-workflow.md](sprints-workflow.md) §7–8). |
 | **My queue** | human-owned active-tier items, grouped by status | Only what needs a human. |
 | **Agent's plate** | `agent == true`, grouped by `est_context` | Work the agent can drain, packaged by session size. |
 | **Someday** | `tier == "someday"` | Speculative work kept out of the active surface without being deleted. |

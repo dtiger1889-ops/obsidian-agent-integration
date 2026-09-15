@@ -1,6 +1,6 @@
 ---
 created: 2026-07-02
-updated: 2026-09-04
+updated: 2026-09-15
 tags:
   - obsidian
   - meta
@@ -164,6 +164,14 @@ Everything user-facing is one skill:
 - **Work the plate**: collect the items explicitly assigned to the agent, group
   them by context needed, and route each bounded item to an appropriately sized
   session or worker while leaving human-gated items alone.
+- **Decisions** (newest, and a separate skill): build a private one-page board
+  of *only* the choices that are genuinely yours to make in one project — each
+  with the context you don't have while reading cold, the files it came from,
+  and per option why you'd pick it, what it costs, what it unblocks. You pick,
+  or save a question without picking; the next session reads that back into the
+  row's `reply`. The hard part was defining "decision" — six wrong builds before
+  the classifier existed. The whole lifecycle of a row, from capture to that
+  board, is in [sprints-workflow.md](design/sprints-workflow.md).
 
 The skill's behavior lives in one platform-agnostic file that each runtime's
 adapter reads, so the same modes can work across local and hosted runtimes
@@ -180,7 +188,9 @@ typed-capture folder and the web-clipper folder · five Bases (task index, to-do
 net, approval queue, idea triage, clipping review) · the human↔agent message
 channel · tiered task views and context-sized agent work · the append-only
 approval ledger with cross-platform Python and PowerShell extractors · a
-report-only link auditor run after any bulk restructure.
+report-only link auditor run after any bulk restructure · the per-project
+decision board with picks and questions read back into the task index, and the
+checkpoint gate that refuses to close while a filed recommendation has no row.
 
 **The growth ladder, and where it actually went:**
 - **v1 (as designed):** everything proposed, you approve every line, runs when

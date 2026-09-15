@@ -31,6 +31,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | Get out of Google Keep (or any notes app) first | [keep-to-obsidian-migration.md](lessons/keep-to-obsidian-migration.md) |
 | Copy the rulebook that governs the agent | [HOME.example.md](design/HOME.example.md) |
 | See the task/review tables and their YAML | [vault-bases.md](design/vault-bases.md) |
+| Follow one action item from capture to close, and see the decision board on top | [sprints-workflow.md](design/sprints-workflow.md) |
 | Refresh the approval ledger from Windows or a hosted runtime | [extract_approvals.py](operations/extract_approvals.py) |
 | Turn Web Clipper into a reviewed source shelf | [web-clippings-lifecycle.md](lessons/web-clippings-lifecycle.md) |
 | Understand how the agent asks permission | [approval-staging.md](design/approval-staging.md) |
@@ -48,6 +49,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | [keep-to-obsidian-migration.md](lessons/keep-to-obsidian-migration.md) | Migrating ~600 Google Keep notes into a PARA vault: recovering the timestamps Takeout drops, the utility-sort triage rubric, and the six ways the consolidation went wrong |
 | [HOME.example.md](design/HOME.example.md) | A depersonalized copy of the vault's rulebook — the folder map plus the 12 numbered agent conventions every session reads first, with notes on adapting each |
 | [vault-bases.md](design/vault-bases.md) | The four work-control Bases (task index, to-do net, approval queue, idea triage): current `.base` YAML, tiered and context-sized task routing, the human↔agent message channel, checkbox properties used as a command surface, and the conventions that took a few rounds |
+| [sprints-workflow.md](design/sprints-workflow.md) | The life of a Sprint row: the four routes a row arrives by (including the rule that a research finding is not tracked until it is a row, enforced at checkpoint close), what the agent stamps at intake, the owner's ten-minute weekly ritual, the notes-lane protocol, draining the agent's plate by context size, sweep maintenance, the three-part test for what counts as a decision, and the decision board whose picks and questions are read back into the row — with the eight failed builds that produced the test |
 | [web-clippings-lifecycle.md](lessons/web-clippings-lifecycle.md) | A complete Web Clipper review lifecycle: fail-closed capture metadata, a copyable Clippings Base, keep/archive/delete rules, wholesale full-settings preservation, and the boundary between extension settings, Syncthing, Android debugging, and backup |
 | [approval-staging.md](design/approval-staging.md) | The staging gate: why in-chat approval failed, the two-lane split, the frontmatter lifecycle, the append-only ledger — what happened when the gate was instrumented and reported a 57% override rate, and the re-test three weeks later that put it at 8% |
 | [rules-that-stuck.md](lessons/rules-that-stuck.md) | ~35 rules that are load-bearing today, each with the incident that produced it |
@@ -91,6 +93,12 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 - **The default view is the interface.** A state your agent can set but the
   default view filters out doesn't look like a state — it looks like the agent
   deleted something.
+- **Nothing is tracked until it is a row.** A recommendation filed in a
+  research folder is not a tracked item; the checkpoint refuses to close until
+  it is one. And a row that is genuinely a *decision* — a real fork needing the
+  human's judgment, live now — earns a place on a board that gives the context
+  he doesn't have while reading cold. Everything else stays off it; an empty
+  board is a correct result.
 - **Review state is not a folder.** A reviewed web source can stay in the
   Clippings shelf when frontmatter and a fail-closed Base separate it from new
   captures.
