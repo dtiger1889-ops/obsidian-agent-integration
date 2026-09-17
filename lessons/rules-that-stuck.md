@@ -254,6 +254,27 @@ which did nothing, because he opens the default view and always will.
 **A state nobody can see is worse than no state**: it converts a tracked item
 into a lost one while the record looks perfect.
 
+### ★ Identify a row by what it carries, not by where it sits
+
+A view's filter selects on a property the note holds — a tag, a status — never
+on the folder it happens to occupy. Folder scoping is a promise that this kind
+of note will never be filed anywhere else; make it only for a folder nothing
+ever leaves.
+
+**Cost:** every view on the web-clippings board was scoped to the capture
+folder. A separate and perfectly sensible decision later moved reviewed keepers
+out to the reference tree, so they would turn up in ordinary subject searches
+alongside everything else on the topic. Twenty-six reviewed clips then dropped
+out of every view that existed to show them — correctly filed, fully tagged,
+completely invisible — and it went unnoticed for weeks, because **a filtered-out
+row and a row that was never created look exactly the same.** Two good decisions
+weeks apart, one silently broken board, no error anywhere. The fix (select on
+the source tag) makes the tag load-bearing, and that trade is worth saying out
+loud: strip it and the note leaves every view at once; hand-add it to a note
+that isn't a clip and that note is dragged in — which happened to one note, and
+its presence was quietly propping up a filter workaround that only made sense
+while it was there. Detail: [vault-bases.md](../design/vault-bases.md) §6.
+
 ### An open item needs work that is OWED
 
 Before recording something as an open thread, check the artifact's real state on
@@ -362,6 +383,58 @@ the agent had proposed. The human had approved it after asking for the note's
 *contents* to change. One mis-stamp in a small sample moves a headline number by
 several points. **Status labels are set by whoever was in a hurry; the fields
 are set by what happened.**
+
+### ★ A pilot over a quiet sample proves nothing
+
+If a trial period is your evidence, make sure the thing you are watching can
+actually move during it. Otherwise drive the input yourself.
+
+**Cost:** a change detector for vault notes ran a week of daily runs in log-only
+mode against a go/no-go written in advance — the unseen count must trend to zero
+and must not ratchet up. Nine consecutive runs logged zero, reading as a pass.
+It wasn't one: the pilot's scope was a single folder whose last modification
+predated the pilot's start by four days, so nothing in scope changed at any
+point. Zero was the arithmetic of an empty input. **The evidence step that
+existed to confirm the design's central claim produced zero observations and
+nobody noticed.** What replaced it was a six-case test against a throwaway copy
+— three must-detect cases, two must-ignore cases, one reset case — which ran in
+ten minutes and actually could have failed. Full case table:
+[verifying-agent-work.md](verifying-agent-work.md).
+
+### ★ Check delegated work against the artifact, not against its summary
+
+Open the files the report is about. The summary is the one part of a delegated
+agent's output that was generated rather than observed.
+
+**Cost:** a delegated research pass reported as its headline finding that two
+duplicated notes had drifted apart, one copy holding five entries the other
+lacked. A line-by-line comparison took under a minute: the bodies were
+byte-identical and only frontmatter differed. Nothing had drifted. Acting on
+that summary would have sent the next session hunting for data that was never
+lost, and then "reconciling" two files that already agreed. Corollary that is
+easy to skip: **correct the record in the artifact the reader will open**, not
+only in the reply — otherwise the wrong version is the durable one.
+
+### ★ A cheap check that contradicts a finding is itself a finding
+
+Validate the instrument before you publish the correction. A verification result
+closes a question, so it needs to be at least as trustworthy as the thing it
+overturns.
+
+**Cost:** the same agent's second claim — that some tags were in use outside the
+approved list — was spot-checked in two minutes, came back empty, and was
+written into the record as "did not reproduce, treat as a lead." The spot-check
+was the thing that was wrong: it parsed the allow-list out of the wrong part of
+the schema file and recognised four approved tags where the schema defines about
+thirty, so nothing it said about on-list versus off-list carried information.
+Rebuilt properly inside the maintenance audit days later, the check confirmed a
+real problem on its first run. A correct finding had been downgraded in writing
+by a broken instrument. **This is the failure mode of being diligent** — nobody
+re-examines a check, and a negative result reads as reassurance. Two fixes, both
+cheap: calibrate on a known answer first (one value you know is on the list, one
+you know isn't), and make every check print what it loaded and how much it
+examined, so "found nothing" has to show its working. Full postmortem:
+[verifying-agent-work.md](verifying-agent-work.md).
 
 ### Decide anything decidable
 

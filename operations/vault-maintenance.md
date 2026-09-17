@@ -87,6 +87,42 @@ Run it after any bulk archive or folder restructure. Zero malformed links and
 zero archive entanglements is an achievable steady state; it just isn't a
 self-maintaining one.
 
+### Two more checks the same auditor should carry
+
+Both were added later, both found real damage on their first run, and both are
+**report-only by deliberate design** — see the note at the end of this section.
+
+**Duplicate filenames anywhere in the vault.** A `[[wikilink]]` is written
+against a *name*, not a path. If two notes anywhere in the tree share a name,
+the link resolves to whichever copy the app decides on, with no error, no
+ambiguity prompt, and no visible difference between the two outcomes. Every
+link to that name is then a coin flip, and the copy that loses the flip
+accumulates edits nobody is reading. The check is cheap — group every note by
+filename, report any group larger than one — and the first run turned up three
+real clashes. Fixing one is a rename, which means it is a link operation: check
+inbound links before renaming, exactly as with archiving above.
+
+**Tags that are not in the schema.** The vault's tag vocabulary is a fixed list
+in one file, and the rule is that the agent never invents a tag. A rule like
+that decays invisibly, because a misspelled or improvised tag behaves normally
+in every way except that no filter finds it. Comparing every tag in use against
+the allow-list found ten that are not in the schema, one of them accounting for
+54 uses on its own. This is not a link-graph check and it lives in the
+link-graph script anyway, because a second script is a second thing to remember
+to run. The reason this check exists at all — and the throwaway version of it,
+written in two minutes, that briefly buried the finding — is in
+[verifying-agent-work.md](../lessons/verifying-agent-work.md).
+
+**Why neither one blocks anything.** Both report; neither refuses a write. The
+temptation with a schema check is to enforce it at save time, and that is wrong
+here for a structural reason: capture happens on a phone, mid-thought, offline,
+and **anything that can refuse a write is something that can lose a thought.**
+The same logic applies to duplicates — a validator that rejects a filename you
+have already typed is a validator that teaches you to stop capturing. So the
+script reports, a human picks which copy survives, and deletion is never
+automatic. An auditor's job is to make silent damage visible, not to stand in
+the doorway.
+
 ### Pointers that live outside the vault rot silently
 
 The vault repairs its own `[[links]]` on rename. Nothing repairs a filename

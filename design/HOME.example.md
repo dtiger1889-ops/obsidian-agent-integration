@@ -38,7 +38,7 @@ is the human-owned schema layer — don't edit it without me.
 | Folder | What lives there |
 |---|---|
 | `00 Inbox/` | Capture entry point. New phone notes land here (Syncthing). Emptied by `/obsidian process-inbox`. |
-| `Clippings/` | Web Clipper landing zone and reviewed source shelf. A fail-closed Base separates new, kept, archive-ready, and delete-candidate clips. |
+| `Clippings/` | Web Clipper landing zone — the unread queue. Reviewed keepers are filed out into the reference tree; a fail-closed Base, keyed on the source tag rather than this folder, separates new, kept, archive-ready, and delete-candidate clips wherever they live. |
 | `Projects/` | Notes tied to active efforts, one subfolder per effort, plus loose project notes. |
 | `Areas/` | Ongoing life domains: Career · Finances · Health · Home & Logistics · Hobbies · Relationships. |
 | `Resources/` | Topic reference: Food & Recipes · How-tos · Ideas · Lists · Media · Tech · Travel. |
@@ -184,10 +184,12 @@ for what replaced it.
 
 **The Clippings folder needs lifecycle metadata, not a second archive.** Keep a
 source-type tag, then record review state, useful life, and disposition as
-separate properties. Reviewed keepers can remain in the same folder because the
-Base, not a move, separates them from incoming work. The full schema, Base, and
-safe Web Clipper settings-edit procedure are in
-[web-clippings-lifecycle.md](../lessons/web-clippings-lifecycle.md).
+separate properties. Reviewed keepers are filed into the reference tree, where
+subject lookups actually happen, and the Base still finds them because it
+selects on the source tag — the earlier version of this rule left keepers in the
+capture folder and scoped every view to that folder, so the first move emptied
+the board. The full schema, Base, and safe Web Clipper settings-edit procedure
+are in [web-clippings-lifecycle.md](../lessons/web-clippings-lifecycle.md).
 
 **Watch for a superseded clause left behind in an old rule.** When rule 11
 changed where action items go, the *earlier* rule that mentioned task routing in

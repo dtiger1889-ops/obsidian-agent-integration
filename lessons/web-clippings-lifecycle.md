@@ -63,14 +63,32 @@ describes the next operation.
 
 ### Keep
 
-Reviewed keepers stay in `Clippings/`. The folder becomes a source shelf as
-well as a landing zone; the Base, not a folder move, separates reviewed material
-from incoming work.
+A reviewed keeper is filed into the reference tree by subject, the same as any
+other reference note, and it keeps its `clippings` tag. The capture folder ends
+up holding the unread queue and nothing else; the source shelf is a view over a
+tag, not a folder.
 
-This is the natural merge of the "reviewed tag" and "reviewed archive folder"
-ideas: use frontmatter for the decision, then leave useful sources where they
-already live. A nested `Clippings/Archive/` adds a second archive policy without
-adding information.
+The frontmatter half of the original design was right and did not change: the
+decision lives in properties, never in a folder name, and a nested
+`Clippings/Archive/` would only add a second archive policy without adding
+information. What changed is where a keeper comes to rest. Leaving reviewed
+sources in the capture folder made them invisible to the way people actually
+look things up — by subject, in the reference tree, next to everything else on
+that subject. A clip you have already decided to keep is reference material; it
+belongs where reference material lives.
+
+**What that move broke, and the rule it produced.** Every view in the Base was
+scoped by folder. Moving 26 reviewed keepers out of the capture folder therefore
+removed all 26 from every view, including the shelf view that existed to list
+them. Nothing errored; the tables just got shorter, and a row that is filtered
+out is indistinguishable from a row that was never created, so it went unnoticed
+for weeks. **Identify a clip by a property it carries —
+`file.hasTag("clippings")` — never by where it lives.** The YAML below is the
+corrected version. The cost of that correction is that the tag becomes
+load-bearing: remove it and the note drops out of every view at once; add it to
+a hand-written note and that note is pulled into the review queue. Both
+directions fail silently, which is why whatever writes the tag now belongs in
+the maintenance audit rather than in the "nice metadata" pile.
 
 ### Archive
 
@@ -119,8 +137,9 @@ views:
     name: Needs review
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
         - clip_status != "reviewed"
+        - '!file.inFolder("Archive")'
     order:
       - file.name
       - title
@@ -137,7 +156,7 @@ views:
     name: Reviewed shelf
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
         - clip_status == "reviewed"
         - clip_disposition == "keep"
     groupBy:
@@ -157,7 +176,7 @@ views:
     name: Enduring library
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
         - clip_status == "reviewed"
         - clip_value == "enduring"
         - clip_disposition == "keep"
@@ -174,9 +193,10 @@ views:
     name: Ready to archive
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
         - clip_status == "reviewed"
         - clip_disposition == "archive"
+        - '!file.inFolder("Archive")'
     order:
       - file.name
       - title
@@ -188,7 +208,7 @@ views:
     name: Delete candidates
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
         - clip_status == "reviewed"
         - clip_disposition == "delete"
     order:
@@ -202,7 +222,7 @@ views:
     name: All clips
     filters:
       and:
-        - file.inFolder("Clippings")
+        - file.hasTag("clippings")
     groupBy:
       property: clip_status
       direction: ASC
@@ -223,6 +243,15 @@ views:
 Lead every view with `file.name`; that column is the link that opens the note.
 The queue is only useful if it works on the phone, so verify view switching and
 inline property editing there before relying on it.
+
+Every view selects on the source tag rather than the capture folder, so a clip
+stays on its board wherever it is filed. That swap has a second half worth
+doing deliberately: a folder filter used to remove archived clips from the
+board as a side effect, and a tag filter does not. If you want archived sources
+off the board, say so explicitly with the same double exclusion the to-do Base
+uses — `'!file.inFolder("Archive")'` alongside a status check — rather than
+relying on a move to do it silently. An inclusion rule and an exclusion rule are
+different decisions; the folder-scoped version had them tangled into one.
 
 ---
 
@@ -344,6 +373,9 @@ Do not stop at "the JSON imported."
 6. Confirm the note appears in **Needs review**.
 7. Review it and confirm it moves to exactly one disposition view.
 8. Confirm the vault sync peer receives the file and no conflict copy appears.
+9. File that reviewed keeper where keepers go, then confirm it is *still* on the
+   shelf view. This is the step that would have caught the folder-scoping bug,
+   and it costs ten seconds.
 
 That test validates the whole chain: extension settings, template output, vault
 path, Base filters, and file transport. A successful import validates only the
@@ -351,9 +383,14 @@ first link.
 
 ## The lessons worth carrying elsewhere
 
-- **Review state and storage location are different axes.** A reviewed keeper
-  can stay in the capture folder when a queryable view separates it from new
-  work.
+- **Review state and storage location are different axes** — which is exactly
+  why a view must not use one to stand in for the other. Select rows by a
+  property the note carries, and the day you decide reviewed keepers are
+  reference material and move them, the board keeps working.
+- **A filter that no longer matches is not an error, it is a shorter table.**
+  Twenty-six correctly filed notes went missing from every view for weeks
+  without a single warning. Anything that can silently reduce a count deserves a
+  test that moves something and checks the count again.
 - **Fail closed on missing metadata.** Old files and template failures belong in
   the review queue, not outside every view.
 - **Preserve configuration wholesale, then patch narrowly.** Unknown fields are

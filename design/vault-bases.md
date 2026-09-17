@@ -553,12 +553,46 @@ the app.
 
 ---
 
-## 6. The Clippings Base — a folder can be an inbox and a shelf
+## 6. The Clippings Base — filter by what a note carries, not where it sits
 
-Web captures land in `Clippings/`, but reviewed keepers stay there too. Review
-state, useful life, and keep/archive/delete disposition are separate properties;
-the default view treats missing status as unreviewed so old clips and template
-failures cannot disappear outside the queue.
+Web captures land in a single capture folder. Review state, useful life, and
+keep/archive/delete disposition are separate properties; the default view treats
+missing status as unreviewed, so old clips and template failures cannot
+disappear outside the queue.
+
+Every view in that Base was originally scoped by folder —
+`file.inFolder("Clippings")` on all six. That held for exactly as long as clips
+never moved.
+
+**The incident.** A separate and perfectly good decision moved reviewed keepers
+out of the capture folder and into the reference tree, so that they would turn
+up in ordinary topic searches alongside everything else on the subject. The two
+decisions were made weeks apart and neither one was wrong. Together they meant
+26 reviewed clips were sitting in the vault, correctly filed, fully tagged, with
+complete lifecycle frontmatter — and invisible in every view that existed to
+show them, including the shelf view whose entire job was reviewed keepers. The
+Base did not error. It rendered a shorter table. Nobody noticed for weeks,
+because a filtered-out row and a row that was never created look identical.
+
+**The rule: a view identifies its rows by a property the note carries, not by a
+location the note happens to occupy.** `file.hasTag("clippings")` survives every
+move; `file.inFolder(...)` is a claim that this kind of note will never be filed
+anywhere else, which is a promise no filing system should make. Folder scoping is
+only safe for a folder that nothing ever leaves — the task index in section 1 is
+scoped that way deliberately, because a sprint note is deleted from that folder
+rather than moved out of it. Everything with a lifecycle that ends somewhere
+else gets a property.
+
+**And the trade this makes, stated plainly: the tag becomes load-bearing.** It
+is no longer decoration, it is the primary key. Strip it from a note and the
+note vanishes from every view at once. Add it by hand to a note that is not a
+clip and that note is dragged into the review queue — which happened to one
+hand-written note, and its presence there was quietly propping up a filter
+workaround that only made sense while it was in the set. Both directions are
+silent. If a property is going to select rows, whatever writes that property is
+now part of the system's plumbing and belongs in the maintenance audit
+([vault-maintenance.md](../operations/vault-maintenance.md)), not in the "nice
+metadata" pile.
 
 The complete schema, copyable `.base` YAML, review rules, and preservation-first
 Web Clipper settings procedure are in
@@ -589,6 +623,11 @@ you're not in the right context to act on, and you stop opening it.
 - **Property names must match exactly** across the `.base` file, the note
   frontmatter, and whatever writes the notes. A typo doesn't error — the column
   just renders empty, which reads as "no data" rather than "wrong key".
+- **A folder filter is a bet that the note never moves.** Scope views with
+  `file.hasTag(...)` or another property the note carries unless the folder is
+  one nothing ever leaves; a row filtered out by a stale `file.inFolder(...)`
+  looks exactly like a row that was never created. The incident that produced
+  this, and the cost of making a tag load-bearing, are in section 6.
 - **`note.` vs `file.`** — `file.name`, `file.tags`, `file.inFolder(...)` are
   file properties; frontmatter is addressed bare or as `note.<prop>` depending
   on position. Copy the working examples above rather than guessing.

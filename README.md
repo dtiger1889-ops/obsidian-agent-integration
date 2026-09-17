@@ -35,6 +35,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | Refresh the approval ledger from Windows or a hosted runtime | [extract_approvals.py](operations/extract_approvals.py) |
 | Turn Web Clipper into a reviewed source shelf | [web-clippings-lifecycle.md](lessons/web-clippings-lifecycle.md) |
 | Understand how the agent asks permission | [approval-staging.md](design/approval-staging.md) |
+| Decide whether an agent's report is actually true | [verifying-agent-work.md](lessons/verifying-agent-work.md) |
 | Skip to the lessons | [rules-that-stuck.md](lessons/rules-that-stuck.md) |
 | Know what will break six months in | [vault-maintenance.md](operations/vault-maintenance.md) |
 | Separate project browsing from personal-vault startup | [workspace-startup.md](operations/workspace-startup.md) |
@@ -52,7 +53,8 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | [sprints-workflow.md](design/sprints-workflow.md) | The life of a Sprint row: the four routes a row arrives by (including the rule that a research finding is not tracked until it is a row, enforced at checkpoint close), what the agent stamps at intake, the owner's ten-minute weekly ritual, the notes-lane protocol, draining the agent's plate by context size, sweep maintenance, the three-part test for what counts as a decision, and the decision board whose picks and questions are read back into the row — with the eight failed builds that produced the test |
 | [web-clippings-lifecycle.md](lessons/web-clippings-lifecycle.md) | A complete Web Clipper review lifecycle: fail-closed capture metadata, a copyable Clippings Base, keep/archive/delete rules, wholesale full-settings preservation, and the boundary between extension settings, Syncthing, Android debugging, and backup |
 | [approval-staging.md](design/approval-staging.md) | The staging gate: why in-chat approval failed, the two-lane split, the frontmatter lifecycle, the append-only ledger — what happened when the gate was instrumented and reported a 57% override rate, and the re-test three weeks later that put it at 8% |
-| [rules-that-stuck.md](lessons/rules-that-stuck.md) | ~35 rules that are load-bearing today, each with the incident that produced it |
+| [verifying-agent-work.md](lessons/verifying-agent-work.md) | Three verification failures in one day and the argument they add up to: a week-long pilot that passed because nothing in its scope had changed, a delegated agent's headline finding that the files contradicted, and the two-minute check that "disproved" a real finding because the checker itself was broken |
+| [rules-that-stuck.md](lessons/rules-that-stuck.md) | ~40 rules that are load-bearing today, each with the incident that produced it |
 | [vault-maintenance.md](operations/vault-maintenance.md) | The silent failures in a synced, plugin-heavy vault: archiving that breaks inbound links and spawns junk notes, a linter that rewrites `updated` when you merely open a note, per-device plugin settings missing from the synced config, sync conflicts that resolve toward the stale copy |
 | [context-budget.md](operations/context-budget.md) | The files an agent must read before it can act, treated as a budget: how a mandatory 43 KB read set got cut 20% with no behavior change, why concatenated reads are where truncation hides, and the four approaches that were rejected |
 | [prior-art.md](design/prior-art.md) | Sourcing: the LLM-wiki pattern and PARA this borrows from, the graph+vector stack that was evaluated and declined (with the two triggers that would reopen it), and the plugin comparisons behind each tooling choice |
@@ -99,9 +101,16 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
   human's judgment, live now — earns a place on a board that gives the context
   he doesn't have while reading cold. Everything else stays off it; an empty
   board is a correct result.
-- **Review state is not a folder.** A reviewed web source can stay in the
-  Clippings shelf when frontmatter and a fail-closed Base separate it from new
-  captures.
+- **Review state is not a folder** — and neither is identity. Frontmatter
+  carries the decision, and a table selects its rows by a property the note
+  carries, never by where the note sits. Twenty-six reviewed clips went missing
+  from every view the day keepers were moved to the reference tree, because the
+  filters were scoped to the capture folder.
+- **A check is evidence only if it could have come out the other way.** A pilot
+  whose sample never changed, and a spot-check whose allow-list never loaded,
+  both produce a clean result and prove nothing. Check an agent's report against
+  the files it describes, and validate the instrument before publishing a
+  correction.
 - **Preserve settings wholesale, then patch narrowly.** A valid replacement
   JSON that omits unrelated extension state is still data loss.
 - **A contradiction inside the rulebook is authoritative permission to be
