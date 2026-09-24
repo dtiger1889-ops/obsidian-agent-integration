@@ -28,6 +28,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | If you want to… | Read |
 |---|---|
 | Understand the whole thing in one sitting | [SYSTEM-OVERVIEW.md](SYSTEM-OVERVIEW.md) |
+| Set up the desktop ↔ phone sync from nothing (Windows + Android; caveats for iPhone, iPad and Mac) | [syncthing-setup.md](operations/syncthing-setup.md) |
 | Get out of Google Keep (or any notes app) first | [keep-to-obsidian-migration.md](lessons/keep-to-obsidian-migration.md) |
 | Copy the rulebook that governs the agent | [HOME.example.md](design/HOME.example.md) |
 | See the task/review tables and their YAML | [vault-bases.md](design/vault-bases.md) |
@@ -55,6 +56,7 @@ operations/          keeping it alive: maintenance traps, the agent's read budge
 | [approval-staging.md](design/approval-staging.md) | The staging gate: why in-chat approval failed, the two-lane split, the frontmatter lifecycle, the append-only ledger — what happened when the gate was instrumented and reported a 57% override rate, and the re-test three weeks later that put it at 8% |
 | [verifying-agent-work.md](lessons/verifying-agent-work.md) | Three verification failures in one day and the argument they add up to: a week-long pilot that passed because nothing in its scope had changed, a delegated agent's headline finding that the files contradicted, and the two-minute check that "disproved" a real finding because the checker itself was broken |
 | [rules-that-stuck.md](lessons/rules-that-stuck.md) | ~40 rules that are load-bearing today, each with the incident that produced it |
+| [syncthing-setup.md](operations/syncthing-setup.md) | The full sync build, desktop to phone: install on both ends (and why the Android app comes from F-Droid), pairing, the vault share and its folder-ID trap, the Obsidian settings that keep sync quiet, an optional markdown-only workspace share, sync over Tailscale, API verification, the operating rules learned from incidents, a rebuild checklist, and the known traps for iPhone, iPad and Mac |
 | [vault-maintenance.md](operations/vault-maintenance.md) | The silent failures in a synced, plugin-heavy vault: archiving that breaks inbound links and spawns junk notes, a linter that rewrites `updated` when you merely open a note, per-device plugin settings missing from the synced config, sync conflicts that resolve toward the stale copy |
 | [context-budget.md](operations/context-budget.md) | The files an agent must read before it can act, treated as a budget: how a mandatory 43 KB read set got cut 20% with no behavior change, why concatenated reads are where truncation hides, and the four approaches that were rejected |
 | [prior-art.md](design/prior-art.md) | Sourcing: the LLM-wiki pattern and PARA this borrows from, the graph+vector stack that was evaluated and declined (with the two triggers that would reopen it), and the plugin comparisons behind each tooling choice |
