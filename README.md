@@ -1,5 +1,7 @@
 # obsidian-agent-integration
 
+![Illustrated approval and filing workflow using a fictional reading note and its retained ledger outcome](assets/example-output.png)
+
 Design docs for wiring **an AI agent to an Obsidian vault** as a second-brain
 system: the vault is the durable reference layer (PARA structure, phone capture
 via Syncthing), the agent is the librarian that files things, and action items
