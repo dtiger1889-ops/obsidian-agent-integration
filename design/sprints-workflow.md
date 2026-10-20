@@ -210,6 +210,19 @@ Run at the end of every sprint-notes run and every inbox sweep:
   say-so; the owner closes or re-tiers. A row with a fresh verdict is left
   alone for another 30 days. (The owner's exact position: he does not like
   auto-demote; he likes auto-*check* for staleness.)
+- **Open note first; "your step" only after checking.** A row carrying an
+  unanswered `note` gets that note acted on and answered (section 4) before any
+  maintenance `reply` goes on it; a `still live` or `verified` stamp written
+  above an open note buries the owner's question under the agent's housekeeping.
+  Before labelling a step as the owner's alone, check whether a tool the agent
+  has this session can do it (a hook or settings entry, a scheduled task, a file
+  edit, a remote shell command). An earlier run's "refused" or "agents cannot
+  reach this" is re-tried, not inherited. If the agent can do it, the row
+  becomes his yes/no with that fact in `reply`; it never runs on an older yes.
+  A note calling the row stale, or asking why it is still here, means he
+  considers it dead: ask close or keep, never carry it out. When a decision
+  lands or the remaining step changes, rewrite `summary` and the body to that
+  step.
 - **Suggested default on every Decide row.** Any owner-owned row blocked on his
   own decision opens its `reply` with `<date> -- Suggested default (agent):
   <the option>. Decide by <about 30 days out>; silence keeps the item open,
