@@ -229,8 +229,10 @@ Run at the end of every sprint-notes run and every inbox sweep:
   nothing runs on its own.` The default is never executed without his go.
 - **Done sweep.** `done: true` is the explicit close signal (legacy
   `status: done` is treated identically, and every view hides both). For each
-  closed row: write the completion into the origin note or project record,
-  sever any live vault links to the row (an archived or deleted note with a live
+  closed row: write the completion into the origin note or project record; if a
+  clip's action entry was routed to this row, mark that entry completed and point
+  it at the result, so the clip never keeps pointing at a deleted row; sever any
+  live vault links to the row (an archived or deleted note with a live
   inbound link becomes a grey node that re-spawns a junk note), then delete the
   row — one delete per file with its literal path, never a multi-path command.
   If completion cannot be recorded safely, leave the row checked and report

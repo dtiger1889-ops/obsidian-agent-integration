@@ -381,6 +381,69 @@ That test validates the whole chain: extension settings, template output, vault
 path, Base filters, and file transport. A successful import validates only the
 first link.
 
+## When a clip asks for a scrape
+
+A clip of a discussion thread often carries an instruction such as "scrape the
+comments for tips". That is the most valuable kind of clip and the easiest to
+get wrong, because the clip is a snapshot. It holds only the comments the page
+showed at the moment of capture: no folded replies, nothing posted afterwards.
+
+**What went wrong.** Earlier scrapes worked from the clip, or graded the thread
+against the existing setup and kept only what fit. Seven threads were redone
+from the live discussion in one pass and measured against what had been
+catalogued:
+
+| Thread topic | Comments in clip vs live | Ideas the earlier catalog held |
+|---|---|---|
+| Why the agent edits files with shell commands | 25 vs 45 | 0 of 24 (never scraped) |
+| Context costs and caching | 25 vs 71 | 13 of 42 |
+| Desktop-app mods people run | 24 vs 123 | 7 of 43 |
+| How others structure an agent-read vault | 11 vs 25 | 7 of 18 |
+| Agents and attention-friendly workflows | 10 vs 31 | 10 of 27 |
+| Sub-agent orchestration | 5 vs 201 | 3 of 59 (the clip was a short repost of the real thread) |
+| A loop-orchestrator setup | 11 vs 59 | 3 of 41 |
+
+The most useful replies were often exactly the missing ones: posted weeks after
+the clip, or folded under another reply. Two threads were also rate-limited by
+the site mid-read; the fallback page read silently lacked the folded replies
+until the thread was read again.
+
+**The method that replaced it** is one procedure file every caller loads (the
+inbox sweep, a task row, a tool review), never a copy inside each:
+
+1. Read the live thread, not the clip. For a repost, read the original too.
+   Record both counts: comments in the clip and comments read live.
+2. List every substantive idea, one line each, linked to its comment. A
+   moderator bot's summary is one input, never the list.
+3. Group the ideas into themes that come from the ideas, with how many people
+   backed each.
+4. Filter only by the owner's own words on the clip, and end with one line
+   naming what was left out.
+5. Write the result as a dated section in a topic note, point the clip's
+   action entry at it, and queue every named tool without a verdict on a review
+   task, so a note is never the only place a tool waits.
+
+A rate-limited or folded read is not a full read: retry it, and until it
+succeeds the clip's action stays open rather than marked completed. A later
+re-scrape compares against the ideas already captured, not against posting
+dates, because the earlier passes missed old comments too.
+
+**Still open:** clips saved with no instruction are filed as reference and their
+comments are never read. A question thread with many replies is a candidate for
+a scrape by default.
+
+## Capture time, not midnight
+
+Phone clips showed `00:00` as their creation time. The clipper's `{{date}}`
+variable starts with a full timestamp, but a property typed as `date` keeps
+only `YYYY-MM-DD`. The fix is two values in the full-settings export: type the
+`created` property as `datetime` and give it an explicit format,
+`{{date|date:"YYYY-MM-DD HH:mm"}}`. Use the same format any linter in the vault
+writes, or the linter treats the value as foreign and replaces it with the
+file's own creation time. Test both halves on the phone: a fresh clip shows the
+current minute, and editing that clip later leaves the minute unchanged.
+Historical clips keep their dates; nothing proves their real save time.
+
 ## The lessons worth carrying elsewhere
 
 - **Review state and storage location are different axes** — which is exactly
@@ -401,3 +464,5 @@ first link.
   that capture, sync, and the review surface work together.
 - **Name the transport before diagnosing it.** Browser settings, vault sync,
   Android debugging, and backup are separate mechanisms with separate evidence.
+- **A capture is a snapshot.** Anything that asks for "what people said" reads
+  the live source and states how much of it was read.
