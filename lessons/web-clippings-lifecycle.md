@@ -444,6 +444,44 @@ file's own creation time. Test both halves on the phone: a fresh clip shows the
 current minute, and editing that clip later leaves the minute unchanged.
 Historical clips keep their dates; nothing proves their real save time.
 
+## A typed note name that doesn't survive
+
+The note name is a convenient place to leave an instruction for the agent that
+processes the clip later ("scrape the comments for tips"). On the phone, that
+name sometimes did not survive. A clip of one thread landed under the title of
+the page clipped earlier that day; on another thread, two clips in a row saved
+under the page title before a third kept the typed name. The page content and
+the `title` property were right every time. Only the file name was wrong.
+
+The clipper's popup refills the name field and every property from the
+template whenever the tab's address changes after the popup opens
+(`refreshFields()` in `src/core/popup.ts`, triggered by a `tabUrlChanged`
+message). Anything typed before that refill is replaced. Reddit on mobile
+rewrites its address after the page loads, which fits the pattern: mostly
+Reddit, intermittent, and dependent on how quickly the name was typed. Where
+the stale earlier title comes from is not confirmed. Reported upstream as
+[obsidian-clipper #1008](https://github.com/obsidianmd/obsidian-clipper/issues/1008).
+
+Until it is fixed: let the page finish loading, type the instruction last, and
+check the name right before saving. Moving the instruction into a property does
+not help, because properties are refilled the same way. A sweep that finds a
+clip named after an unrelated page title should treat the instruction as lost
+and ask, not guess.
+
+## When the save button does nothing
+
+Once, tapping "Add to Obsidian" on the phone did nothing at all: Obsidian never
+opened and no file was written. Each link in the chain checked out on its own.
+The browser and the clipper were unchanged, the `obsidian://` scheme still
+resolved to Obsidian, and a hand-built `obsidian://new` link sent over Android
+debugging created its note. After Obsidian had been opened that way once,
+clipping worked again. The device log just before showed the system freezing
+Obsidian in the background, so a frozen app swallowing the hand-off is the
+leading guess, not a proven cause. The cheap first step next time is to open
+Obsidian, then clip again. Two things that are easy to get wrong in the same
+test: the `vault=` parameter must match the vault's folder name on that device,
+and a plugin update cannot be the cause when the app never opened.
+
 ## The lessons worth carrying elsewhere
 
 - **Review state and storage location are different axes** — which is exactly
