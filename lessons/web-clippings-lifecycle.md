@@ -479,9 +479,10 @@ since clips last worked, the
 `obsidian://` scheme still resolved to Obsidian, and a hand-built
 `obsidian://new` link sent over Android debugging created its note. After
 Obsidian had been opened that way once, clipping worked again. The device log
-showed the system freezing Obsidian in the background a couple of seconds after
-one failed attempt, so a frozen app swallowing the hand-off is a guess, not a
-proven cause, and an intermittent fault in a plugin, the browser or the
+showed the system freezing Obsidian in the background shortly after a few
+seconds in which the browser was in front, which may or may not have included a
+save tap, so a frozen app swallowing the hand-off is a guess, not a proven
+cause, and an intermittent fault in a plugin, the browser or the
 extension is not ruled out: Obsidian was already running in the background with
 its plugins loaded. Next time, save the device log covering the failed tap
 before doing anything else, then open Obsidian and clip again. One thing that is
