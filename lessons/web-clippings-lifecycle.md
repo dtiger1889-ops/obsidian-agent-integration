@@ -456,10 +456,12 @@ the `title` property were right every time. Only the file name was wrong.
 The clipper's popup refills the name field and every property from the
 template whenever the tab's address changes after the popup opens
 (`refreshFields()` in `src/core/popup.ts`, triggered by a `tabUrlChanged`
-message). Anything typed before that refill is replaced. Reddit on mobile
-rewrites its address after the page loads, which fits the pattern: mostly
-Reddit, intermittent, and dependent on how quickly the name was typed. Where
-the stale earlier title comes from is not confirmed. Reported upstream as
+message). Anything typed before that refill is replaced. That code path is
+confirmed; what triggered it in these cases is not. The likely trigger is
+the page changing its own address after it loads, which would fit what was
+seen (mostly Reddit, intermittent), but no failed attempt was watched closely
+enough to show the address change or the refresh. Where the stale earlier
+title comes from is not confirmed either. Reported upstream as
 [obsidian-clipper #1008](https://github.com/obsidianmd/obsidian-clipper/issues/1008).
 
 Until it is fixed: let the page finish loading, type the instruction last, and
@@ -471,16 +473,20 @@ and ask, not guess.
 ## When the save button does nothing
 
 Once, tapping "Add to Obsidian" on the phone did nothing at all: Obsidian never
-opened and no file was written. Each link in the chain checked out on its own.
-The browser and the clipper were unchanged, the `obsidian://` scheme still
-resolved to Obsidian, and a hand-built `obsidian://new` link sent over Android
-debugging created its note. After Obsidian had been opened that way once,
-clipping worked again. The device log just before showed the system freezing
-Obsidian in the background, so a frozen app swallowing the hand-off is the
-leading guess, not a proven cause. The cheap first step next time is to open
-Obsidian, then clip again. Two things that are easy to get wrong in the same
-test: the `vault=` parameter must match the vault's folder name on that device,
-and a plugin update cannot be the cause when the app never opened.
+came to the front and no file was written. Each link in the chain checked out
+on its own afterwards. Neither the browser nor the clipper had a new release
+since clips last worked, the
+`obsidian://` scheme still resolved to Obsidian, and a hand-built
+`obsidian://new` link sent over Android debugging created its note. After
+Obsidian had been opened that way once, clipping worked again. The device log
+showed the system freezing Obsidian in the background a couple of seconds after
+one failed attempt, so a frozen app swallowing the hand-off is a guess, not a
+proven cause, and an intermittent fault in a plugin, the browser or the
+extension is not ruled out: Obsidian was already running in the background with
+its plugins loaded. Next time, save the device log covering the failed tap
+before doing anything else, then open Obsidian and clip again. One thing that is
+easy to get wrong in the same test: the `vault=` parameter must match the
+vault's folder name on that device.
 
 ## The lessons worth carrying elsewhere
 
