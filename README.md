@@ -16,6 +16,14 @@ that's a pointer into the vault rulebook ([HOME.example.md](design/HOME.example.
 The system has been in daily use since mid-2026. Most of what's here is scar
 tissue.
 
+## Adapting it to your vault
+
+Start with [SYSTEM-OVERVIEW.md](SYSTEM-OVERVIEW.md), then choose one workflow to try on a copy of your vault. You need Obsidian and an agent that can read and edit the vault's Markdown files; phone sync is optional. These are design docs and supporting scripts, not an installable agent skill or plugin. Ask your agent:
+
+> Read SYSTEM-OVERVIEW.md and design/HOME.example.md. Propose how to adapt the capture and approval workflow to my vault. List the files and tools needed, and wait for my approval before changing notes or settings.
+
+The first result should be an adaptation plan, not a reorganized vault. A recurring skill can come after you have chosen and tested the workflow. Other agents need their file access, approval controls and script support checked in your setup.
+
 ## Layout
 
 ```
@@ -132,6 +140,10 @@ vocabulary derived from someone's real usage is their footprint, not a reusable
 artifact. The pattern is the transferable part: **one file listing allowed tags
 with one-line semantics, and a hard rule that the agent never invents tags —
 untagged beats force-fit.**
+
+## Help
+
+For setup questions or errors, [open an issue](https://github.com/dtiger1889-ops/obsidian-agent-integration/issues) with the relevant versions and a redacted error description.
 
 ## License
 
